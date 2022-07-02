@@ -1,0 +1,41 @@
+body {
+  width: 70%;
+  margin: 7rem auto;
+}
+
+.dummy {
+  color: red;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.purple {
+  margin: .8rem;
+  background-color: purple;
+  height: 100px;
+  width: 100px;
+}
+
+.foo {
+  border-radius: 50%;
+}
+
+#clicky {
+  height: 200px;
+  width: 200px;
+  border: 2px solid green;
+}
+
+.background {
+  background: orange;
+  border: 1px solid black;
+}
+
+.green {
+  background: green;
+}
+
+/*
+  //TODO:add styles
+
+ */
