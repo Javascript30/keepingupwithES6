@@ -101,37 +101,35 @@ console.log(name2.hasOwnProperty("age"));
 const name3 = Object.create(name2);
 console.log(name3.hasOwnProperty("name"));
 
-function Animal(name, age, breed) {
-  const obj = {};
-  obj.name = name;
-  obj.age = age;
-  obj.breed = breed;
-  obj.sayBreed = function () {
-    console.log(`My breed is: ${obj.breed}`);
-  };
-  return obj;
-}
-
-function Animals(name, age, breed) {
+function Animal(name, age) {
   this.name = name;
   this.age = age;
-  this.breed = breed;
 }
 
-console.log(Animals.prototype);
-
-Animals.prototype.sayBreed = function () {
+Animal.prototype.sayBreed = function () {
   console.log(`I am a : ${this.breed}`);
 };
 
-const dog1 = new Animal("Yega", 3, "Pit Bull");
-const dog2 = new Animals("Rex", 4, "Golden Retreiver");
-console.log(dog1);
-console.log(dog2);
-
-console.log(Animals.prototype);
-
-dog1.sayBreed();
-dog2.sayBreed();
-
 // NB: Add the method onto the prototype as shown in the Animals prototype
+
+function Dog(name, age, breed) {
+  Animal.call(this, name, age);
+  this.breed = breed;
+}
+
+console.log(Animal.prototype);
+console.log(Dog.prototype);
+
+const dog1 = new Dog("Yega", 3, "Pit Bull");
+
+console.log(dog1);
+
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+const dog2 = new Dog("Rex", 4, "Golden Retreiver");
+
+console.log(dog2);
+console.log(Dog.prototype);
+
+dog2.sayBreed();
+// dog2.sayBreed();
