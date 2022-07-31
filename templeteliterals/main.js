@@ -133,3 +133,39 @@ console.log(Dog.prototype);
 
 dog2.sayBreed();
 // dog2.sayBreed();
+
+function Cat(name, age, coloration) {
+  Animal.call(this, name, age);
+  this.coloration = coloration;
+}
+
+Cat.prototype = Object.create(Animal.prototype);
+Cat.prototype.constructor = Cat;
+Cat.prototype.scratchPost = function () {
+  if (this instanceof Kitten) {
+    console.log("Kitty scratched post!!!");
+  } else {
+    console.log(this.name + " has scratched the post");
+  }
+};
+
+const kitty = new Cat("Meow", 5, "redd");
+kitty.sayBreed();
+kitty.scratchPost();
+
+function Kitten(name, age, coloration, litter) {
+  Cat.call(this, name, age, coloration);
+  this.litter = litter;
+}
+Kitten.prototype = Object.create(Cat.prototype);
+Kitten.prototype.constructor = Kitten;
+
+const littleOne = new Kitten("Meeeww", 0.43, "blue", 6);
+littleOne.sayBreed();
+littleOne.scratchPost();
+console.log(littleOne.age);
+
+console.log(littleOne instanceof Cat);
+console.log(littleOne instanceof Animal);
+console.log(littleOne instanceof Kitten);
+console.log(littleOne instanceof Dog);
