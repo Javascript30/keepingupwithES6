@@ -1,79 +1,137 @@
-// Templete Literals
+// Try, Catch, Finally and so on --- did nt write this --just watched it
 
-/*
+// The Other Codes are in the main branch
+// Started from try, catch, finally but didnt write its code anywhere
 
-    - String literals allowing embedded exprssions
-    - Makes it easier to create multiline strings and allows string interpolation
-    - Enclosed in back-ticks (`String goes here`) instead of single quotes ('') or double quotes("")
-    - Can contain placeholders
+// 044. OOP (Object Oriented Programming)
 
+/* 
+- You use objects to represent real world things.
+- Objects have own properties and functions(methods)
+- Objects can contasin data and other code to represent info about what you are trying to model
+- Data /methods inside the object is encapsulated
+
+- In classic OOP, class is defined then when a n instance of that class is created all the prop and methods are coppied(!!) over to the intance
+
+- Javascript is dynamic and does not provide a traditional class implementation per se.
+- JS inheritance is prototype based
+- Each object has a private propery called the prototype
+- Ther prototype can have a prototype of its own
+- Nearly all objects in JS are instances of Objects which sits on top of the prototype chain
+
+- The protorype is a bucket top store properties and methods
+- Prototype is a templete object and can have prototype properties of its own
+- The prototype property is where inherited members are defined
 */
 
-let myFirstName = "Lesley";
-let myLastName = "Kimutai";
-let myAge = 23;
+// Pretent this is a class:
+function Ship() {
+  this.floats = true;
+  this.material = "steel";
+  this.whatAmI = function () {
+    console.log("I am made of : " + this.material);
+  };
+}
 
-console.log(
-  "Hello, " + myFirstName + " " + myLastName + ".I am " + myAge + " years old."
-);
+const myShip = new Ship();
+myShip.whatAmI();
 
-console.log(`Hello, ${myFirstName} ${myLastName}.I am ${myAge} years old.`);
+const myObj = {
+  a: 1,
+  b: 2,
+};
+console.log(myObj.a);
 
-let myNewList =
-  "<ul>\n" +
-  "<li>I am item 1</li>\n" +
-  "<li>I am item 2</li>\n" +
-  "<li>I am item 3</li>\n" +
-  "</ul>";
+console.log(myObj.valueOf());
+// IT INHERITS UP THE CHAIN
+// DOES THIS
+// Does myObj have a method called valueOf()?
+// NO
+// Does Object prototype have a method called valueOf()?
+// YES
+// myObj > Object
 
-// Template literals
-let myOtherNewList = `
-<ul>
-    <li>I am es6 item 1</li>
-    <li>I am item 2</li>
-    <li>I am item 3</li>
-    <li>I am item 4</li>
-</ul>
-`;
-console.log(myNewList + myOtherNewList);
+const myString = "hello";
+console.log(myString.charAt(1));
+// DOES THIS
+// Does myString have a method called charAt()?
+// NO
+// Does Object have a method called charAt()?
+// YES
+console.log(myString.valueOf());
+// Does myString have a method called valueOf()?
+// NO
+// Does String prototype have a method caled valueOf()?
+// NO
+// Does Object prototype have a method called valueOf()?
+// YES
 
-const myDiv = document.getElementById("myDiv");
+console.log(Object.keys(myObj));
 
-myDiv.innerHTML += myNewList + myOtherNewList;
-// myDiv.innerHTML += myOtherNewList;
+// Object.keys() cannot be called on the object itself as tried below
+// console.log(myObj.keys());
 
-const dateNow = new Date();
-console.log(`Today's : ${dateNow.toLocaleDateString()}`);
+const myArray = ["a", "b", "c"];
 
-const myArray = [1, 2, 3, 4, 5, 6];
+myArray.push("d");
+console.log(Array.prototype);
+console.log(Object.prototype);
+console.log(myArray);
 
-myArray.map((num) => {
-  console.log(num * 2);
-});
+myArray.slice(0);
+console.log(myArray);
 
-console.log(`${myArray.map((num) => num * 3)}`);
+const name1 = {
+  name: "Less",
+  age: 16,
+  sayName: function () {
+    console.log(`My name is ${this.name}`);
+  },
+};
 
-const pizzaTopings = [
-  "cheese",
-  "chicken-tika",
-  "paprika",
-  "peperoni",
-  "sause",
-  "pineapple",
-];
+const name2 = Object.create(name1);
 
-const myPizzaDiv = `<article>
-        <h1>Pizza Ingredients</h1>
-        <ul>
-            ${pizzaTopings
-              .map((pizza) => {
-                return `<li>${pizza}</li>`;
-              })
-              .join("\n            ")}
-        </ul>
-    </article>
-    `;
+name2.sayName();
+console.log(name2.age);
 
-console.log(myPizzaDiv);
+name2.name = "John Doe";
+name2.sayName();
+console.log(name2.hasOwnProperty("age"));
 
-myDiv.innerHTML += myPizzaDiv;
+const name3 = Object.create(name2);
+console.log(name3.hasOwnProperty("name"));
+
+function Animal(name, age, breed) {
+  const obj = {};
+  obj.name = name;
+  obj.age = age;
+  obj.breed = breed;
+  obj.sayBreed = function () {
+    console.log(`My breed is: ${obj.breed}`);
+  };
+  return obj;
+}
+
+function Animals(name, age, breed) {
+  this.name = name;
+  this.age = age;
+  this.breed = breed;
+}
+
+console.log(Animals.prototype);
+
+Animals.prototype.sayBreed = function () {
+  console.log(`I am a : ${this.breed}`);
+};
+
+const dog1 = new Animal("Yega", 3, "Pit Bull");
+const dog2 = new Animals("Rex", 4, "Golden Retreiver");
+console.log(dog1);
+console.log(dog2);
+
+console.log(Animals.prototype);
+
+dog1.sayBreed();
+dog2.sayBreed();
+
+// NB: Add the method onto the prototype as shown in the Animals prototype
