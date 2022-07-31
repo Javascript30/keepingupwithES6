@@ -169,3 +169,55 @@ console.log(littleOne instanceof Cat);
 console.log(littleOne instanceof Animal);
 console.log(littleOne instanceof Kitten);
 console.log(littleOne instanceof Dog);
+
+// 050  OOP : Using Classes
+
+// Classes in ES6 are just syntactical sugar over JS's existing prototype-based inheritance
+// Simple, clean sdyntax to creat objects and take care of inheritance
+
+// Pre-ES6 way:
+/*
+
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.greetings = function () {
+  console.log("Greetings " + this.name);
+};
+
+function Employee(name, age, role) {
+  Person.call(this, name, age);
+  this.role = role;
+}
+
+Employee.prototype = Object.create(Person.prototype);
+Employee.prototype.constructor = Employee;
+
+const bill = new Employee("Bill", 34, "developer");
+bill.greetings();
+
+console.log(Person.prototype);
+
+// Pre-ES6 way:
+
+*/
+
+// Class Method:
+// Classes are not hoisted
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+  greetings() {
+    console.log("Greetings " + this.name);
+  }
+}
+
+const bob = new Person("Bob", 45);
+console.log(bob);
+bob.greetings();
+
+console.log(Person.prototype);
