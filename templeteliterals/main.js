@@ -96,10 +96,10 @@ console.log(name2.age);
 
 name2.name = "John Doe";
 name2.sayName();
-console.log(name2.hasOwnProperty("age"));
+// console.log(name2.hasOwnProperty("age"));
 
-const name3 = Object.create(name2);
-console.log(name3.hasOwnProperty("name"));
+// const name3 = Object.create(name2);
+// console.log(name3.hasOwnProperty("name"));
 
 function Animal(name, age) {
   this.name = name;
@@ -214,6 +214,9 @@ class Person {
   greetings() {
     console.log("Greetings " + this.name);
   }
+  static sayHey() {
+    console.log("Say Hey !!!");
+  }
 }
 
 const bob = new Person("Bob", 45);
@@ -221,3 +224,191 @@ console.log(bob);
 bob.greetings();
 
 console.log(Person.prototype);
+
+// 051 Class Inheritance
+
+class Employee extends Person {
+  constructor(name, age, position) {
+    super(name, age);
+    this.position = position;
+  }
+}
+
+const lee = new Employee("Lee", 24, "developer");
+console.log(lee);
+lee.greetings();
+
+class Customer extends Person {
+  constructor({ name = "customer", age = "n/a", contactMethod }) {
+    super(name, age);
+    this.contactMethod = contactMethod;
+    this.accountCredit = null;
+  }
+  addCredit(amount) {
+    this.accountCredit += amount;
+  }
+  reduceCredit(amount) {
+    this.accountCredit -= amount;
+  }
+
+  // Static method on Customer
+  static sayHi() {
+    console.log("Hi all !!");
+  }
+
+  // static sayCustomerNames(c1, c2) {
+  //   console.log(`${c1.name}, ${c2.name}`);
+  // }
+  static sayCustomerNames(...customers) {
+    customers.forEach((customer) => {
+      console.log(customer.name);
+    });
+  }
+
+  static transferCredit(source, target) {
+    const amount = source.accountCredit;
+    target.accountCredit += amount;
+    source.accountCredit -= amount;
+  }
+}
+
+const customer1 = new Customer({ contactMethod: "email" });
+
+customer1.addCredit(100);
+
+console.log(customer1);
+
+customer1.reduceCredit(50);
+
+console.log(customer1);
+
+const customer2 = new Customer({ name: "Lee", age: 21, contactMethod: "Tel" });
+const customer3 = new Customer({ name: "Owen", age: 21, contactMethod: "Tel" });
+
+console.log(customer2.accountCredit);
+
+customer2.addCredit(25);
+
+console.log(customer2);
+
+Customer.sayHey();
+Customer.sayCustomerNames(customer3, customer2, customer1);
+
+console.log(customer3.accountCredit);
+
+Customer.transferCredit(customer2, customer3);
+Customer.transferCredit(customer1, customer3);
+
+console.log(customer2.accountCredit);
+console.log(customer3.accountCredit);
+
+// New Class Example
+
+/* 
+
+class Family {
+  constructor(lastName) {
+    this.lastName = lastName;
+  }
+  sayFamilyName() {
+    console.log(`We are the ${this.lastName}'s`);
+  }
+}
+
+class Parent extends Family {
+  constructor(lastName, firstName) {
+    super(lastName);
+    this.firstName = firstName;
+  }
+}
+
+class Child extends Family {
+  constructor(lastname, firstName) {
+    super(lastname);
+    this.firstName = firstName;
+  }
+}
+
+const dad = new Parent("Ngisirei", "John");
+const mum = new Parent("Ngisirei", "Margaret");
+
+const kim = new Child("Ngisirei", "Lesley");
+const cedy = new Child("Ngisirei", "Cedric");
+
+cedy.sayFamilyName();
+
+*/
+
+class FamilyMember {
+  constructor(lastName, firstName, relationship) {
+    this.lastName = lastName;
+    this.firstName = firstName;
+    this.relationship = relationship;
+  }
+  sayFamilyName() {
+    console.log(`We are the ${this.lastName}'s`);
+  }
+}
+
+class FamilyGroup {
+  constructor(parents = [], children = []) {
+    this.parents = parents;
+    this.children = children;
+  }
+  addMember(member) {
+    this.children.push(member);
+  }
+}
+
+// const dad = new FamilyMember("Ngisirei", "John", "Father");
+// const mum = new FamilyMember("Ngisirei", "Margaret", "Mother");
+
+// const kim = new FamilyMember("Ngisirei", "Lesley", "son");
+// const cedy = new FamilyMember("Ngisirei", "Cedric", "son");
+
+// const cherim = new FamilyGroup([dad, mum]);
+// console.log(cherim.parents);
+
+// cherim.addMember(kim);
+// cherim.addMember(cedy);
+
+// console.log(cherim);
+
+const cherimFamily = {
+  1: ["Ngisirei", "John", "father"],
+  2: ["Ngisirei", "Margaret", "mother"],
+  3: ["Ngisirei", "Lesley", "son"],
+  4: ["Ngisirei", "Cedric", "son"],
+  5: ["Ngisirei", "Cecil", "son"],
+  6: ["Ngisirei", "Fajir", "daughter"],
+};
+
+const anotherFamily = {
+  1: ["William", "Bill", "father"],
+  2: ["William", "Diana", "mother"],
+  3: ["William", "Britany", "daughter"],
+  4: ["William", "Olephus", "son"],
+  6: ["William", "Fajir", "daughter"],
+};
+
+const createFamily = (famObj) => {
+  const newFamGroup = new FamilyGroup();
+  for (const prop in famObj) {
+    const [last, first, relationship] = famObj[prop];
+    const newMember = new FamilyMember(last, first, relationship);
+
+    // Add to the FamilyGroup it belongs to
+    if (relationship === "father" || relationship === "mother") {
+      newFamGroup.parents.push(newMember);
+    } else {
+      newFamGroup.children.push(newMember);
+    }
+  }
+  return newFamGroup;
+};
+
+const theNgisireis = createFamily(cherimFamily);
+console.log(theNgisireis);
+
+const theWilliams = createFamily(anotherFamily);
+console.log(theWilliams);
