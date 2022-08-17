@@ -41,3 +41,34 @@ testPromise
   .catch((rejectMessage) => {
     console.log(`Error: ${rejectMessage}`);
   });
+
+// 02. Example 2
+
+function numAdder(n1, n2) {
+  return new Promise((resolve, reject) => {
+    const addedNums = n1 + n2;
+    setTimeout(() => {
+      resolve(addedNums);
+    }, 500);
+  });
+}
+
+function numSquarer(num) {
+  return new Promise((resolve, reject) => {
+    const squaredNum = num * num;
+    setTimeout(() => {
+      resolve(squaredNum);
+    }, 1000);
+  });
+}
+
+numAdder(100, 532).then((data) => console.log(`Added total: ${data}`));
+numSquarer(34).then((data) => console.log(`Squared num: ${data}`));
+
+numAdder(10, 5)
+  .then((data) => {
+    return numSquarer(data);
+  })
+  .then((moreData) => {
+    console.log(moreData);
+  });
