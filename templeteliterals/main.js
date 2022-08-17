@@ -1,112 +1,95 @@
 /* eslint-disable no-unused-vars */
-// Callbacks n Promises
+// Promises
 
 /*
 
-    - A way to write asynchronous JS
-    - A callback function is a fn that is passed to another fn as a parameter
-    - This inner fn is called at somepoint during the execution of the containing function
-    -  In other words it's 'called back' at some specified point inside the containing function's body 
+- "A promise is a proxy for a value not necessarily known when the promise is created -  Mozilla Developer Network"
+- Promises (similar to callbacks) are used for async computations
+- Think of a promise as representing a value that may be availavable now, later or never
+-  Can assosiate a handler with async action
+- A promise exists in these states: 
+          - Pending : Initial state, not fulfilled
+          - Fulfilled : Ok! Got it
+          - Rejected: failed
 
 */
 
 //01. Examples
 
-function shouldGoFirst(callBack) {
-  setTimeout(() => {
-    console.log("I go first !!");
-    callBack();
-  }, 1000);
-}
-function shouldGoSecond() {
-  console.log("I go second !!");
-}
-
-// Showing that JS is synchronous
-
-// shouldGoFirst();
-// shouldGoSecond();
-
-// Showing that JS is synchronous
-
-// shouldGoFirst(shouldGoSecond);
-
-//02. Another Example
-
-function sumUpNumbers(num1, num2, cb) {
-  let summedValue;
-  setTimeout(() => {
-    summedValue = num1 + num2;
-    cb(summedValue);
-  }, 1000);
-}
-
-function logSummedValue(val) {
-  console.log(`The sumed total is: ${val}`);
-}
-
-// sumUpNumbers(300, 74, logSummedValue);
-
-//03. Another Example
-
-function sayWhenDone() {
-  console.log(`I'm done looping`);
-}
-
-function looper(n, cb) {
-  for (let i = 0; i < n; i += 1) {
-    console.log(i);
+const testPromise = new Promise((resolve, reject) => {
+  if (Math.random() > 0.5) {
+    reject("promise no good! Rejected");
   }
-  cb();
-}
-
-// looper(34, sayWhenDone);
-
-//04. Anoter Example 4...
-
-const myDiv = document.getElementById("main");
-const myButton = myDiv.querySelector("button");
-const myPara = document.getElementById("content");
-
-const fakeData = {
-  text:
-    "  Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus expedita cum fugit. Quas quis odit, facilis accusamus tempore quo repellat laborum, magnam obcaecati non quibusdam, esse dolores numquam eos corrupti? Expedita repellendus ex itaque nihil explicabo qui ea? Deserunt, eveniet",
-};
-
-myButton.addEventListener("click", () => {
-  console.log("clicked!!");
-  reqData(populateDOM);
+  setTimeout(() => {
+    resolve("promise OK!");
+  }, 1000);
 });
 
-const reqData = (cb) => {
-  let data = "Loading ...";
-  cb(data);
-  // Fake data req an res
-  setTimeout(() => {
-    // Res from server
-    data = fakeData.text;
-    cb(data);
-  }, 2000);
-};
+testPromise
+  .then((resolveMessage) => {
+    console.log(`Looks like: ${resolveMessage}`);
+  })
+  .then(() => {
+    console.log("I'm sandwiched here !!");
+  })
+  .then(() => {
+    console.log("Promises are awesome!!");
+  })
+  .then(() => {
+    console.log("I should run after promise!!");
+  })
+  .catch((rejectMessage) => {
+    console.log(`Error: ${rejectMessage}`);
+  });
 
-const populateDOM = (data) => {
-  myPara.innerText = data;
-};
+// 02. Example 2
 
-//05. Anoter Example 4...
-function counter() {
-  setTimeout(() => {
-    console.log("First");
+function numAdder(n1, n2) {
+  return new Promise((resolve, reject) => {
+    if (Math.random() > 0.3) {
+      reject("nope adder!!");
+    }
+    const addedNums = n1 + n2;
     setTimeout(() => {
-      console.log("Second");
-      setTimeout(() => {
-        console.log("Third");
-        setTimeout(() => {
-          console.log("Fourth");
-        }, 400);
-      }, 600);
-    }, 800);
-  }, 1000);
+      resolve(addedNums);
+    }, 500);
+  });
 }
 
-counter();
+function numSquarer(num) {
+  return new Promise((resolve, reject) => {
+    // Was throwing an error --- handled by puting the catch on the outer Promise
+    if (Math.random() > 0.7) {
+      reject("nope squarer!!");
+    }
+    const squaredNum = num * num;
+    setTimeout(() => {
+      resolve(squaredNum);
+    }, 1000);
+  });
+}
+
+numAdder(100, 532)
+  .then((data) => console.log(`Added total: ${data}`))
+  .catch((err) => console.log(err));
+
+numSquarer(34)
+  .then((data) => console.log(`Squared num: ${data}`))
+  .catch((err) => console.log(err));
+
+numAdder(10, 5)
+  .then((data) => numSquarer(data))
+  .then((moreData) => console.log(moreData))
+  .catch((err) => console.log(err));
+
+// 03. Example 3
+
+const prom = Promise.resolve([13, 677, 775.6, 54]);
+prom
+  .then((nums) => nums.map((num) => num * 2))
+  .then((transformedNums) => console.log(transformedNums));
+
+// 04. Another Example 4
+
+const anotherProm = Promise.resolve({ text: "resolved: D!!" });
+anotherProm.then((data) => console.log(data.text));
