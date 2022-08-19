@@ -13,9 +13,24 @@ myBtn.addEventListener("click", () => {
     .catch((err) => console.log(err));
 });
 
-const populatePlanet = ({ name }) => {
-  console.log(name);
-  //   const newPara = document.createElement("p");
-  //   newPara.innerText = name;
-  //   myDiv.appendChild(newPara);
+const populatePlanet = (planetObj) => {
+  const { name, climate, terrain, population, orbital_period } = planetObj;
+  let pop;
+  if (population === "unknown") {
+    pop = population;
+  } else {
+    pop = parseInt(population).toLocaleString();
+  }
+  const planetDiv = `
+    <div>
+    <h1>${name}</h1>
+    <p>${name} has a climate that is ${climate}. <br> 
+    The terraine is ${terrain}, with a population of ${pop}. <br>
+    The orbital period of ${name} is ${orbital_period} days.
+    </p>
+    </div>
+  `;
+
+  myDiv.innerHTML += planetDiv;
+  console.log(planetDiv);
 };
