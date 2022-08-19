@@ -16,11 +16,9 @@ myBtn.addEventListener("click", () => {
 const populatePlanet = (planetObj) => {
   const { name, climate, terrain, population, orbital_period } = planetObj;
   let pop;
-  if (population === "unknown") {
-    pop = population;
-  } else {
-    pop = parseInt(population).toLocaleString();
-  }
+  population === "unknown"
+    ? (pop = population)
+    : (pop = parseInt(population).toLocaleString());
   const planetDiv = `
     <div>
     <h1>${name}</h1>
