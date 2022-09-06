@@ -25,3 +25,5 @@ kim.sayHi();
 const sally = new Person("Sally", 16);
 sally.sayHi();
 sally.sayHi();
+
+kim.sayHi();

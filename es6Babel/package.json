@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel src --watch -d js"
+    "build": "babel src --watch -d js",
+    "serve": "http-server"
   },
   "author": "Lesley",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.18.10",
     "@babel/core": "^7.18.13",
-    "@babel/preset-env": "^7.18.10"
+    "@babel/preset-env": "^7.18.10",
+    "http-server": "^14.1.1"
   }
 }
