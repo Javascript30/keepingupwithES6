@@ -27,3 +27,5 @@ sally.sayHi();
 sally.sayHi();
 
 kim.sayHi();
+
+console.log("HeYYY!!!");

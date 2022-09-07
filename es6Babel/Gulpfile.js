@@ -18,3 +18,9 @@ gulp.task("js", function() {
     .pipe(babel())
     .pipe(gulp.dest("dist"));
 });
+
+gulp.task("watch", function() {
+  gulp.watch("src/*js", gulp.series("js"));
+});
+
+gulp.task("default", gulp.series("moveHTML", "js", "watch"));

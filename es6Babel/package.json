@@ -6,9 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src --watch -d js",
-    "serve": "http-server",
-    "gulp": "gulp js",
-    "gulphtml": "gulp moveHTML"
+    "serve": "http-server src",
+    "gulp": "gulp default"
   },
   "author": "Lesley",
   "license": "ISC",

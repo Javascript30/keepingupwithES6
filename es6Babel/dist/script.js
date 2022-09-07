@@ -39,3 +39,4 @@ var sally = new Person("Sally", 16);
 sally.sayHi();
 sally.sayHi();
 kim.sayHi();
+console.log("HeYYY!!!");
