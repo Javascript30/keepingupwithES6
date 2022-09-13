@@ -3,7 +3,7 @@ const path = require("path");
 
 // eslint-disable-next-line no-undef
 module.exports = {
-  entry: "./src/app.js",
+  entry: path.resolve(__dirname, "src/app.js"),
   output: {
     // eslint-disable-next-line no-undef
     path: path.resolve(__dirname, "public"),
@@ -18,4 +18,5 @@ module.exports = {
       },
     ],
   },
+  mode: "development",
 };
